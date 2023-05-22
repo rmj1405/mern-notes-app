@@ -1,5 +1,7 @@
 import { RequestHandler } from "express"
 import NoteModel from "../models/note"
+import createHttpError from "http-errors"
+import mongoose from "mongoose"
 
 export const getNotes: RequestHandler = async (req, res, next) => { //await can only be used inside async
     try {
@@ -18,18 +20,35 @@ export const getNote: RequestHandler = async (req, res, next) => {
     const noteId = req.params.noteId
 
     try {
+        //set error message if note id queried is of wrong shape - wrong len/invalid characters 
+        if (!mongoose.isValidObjectId(noteId)) {
+            throw createHttpError(400, "Invalid Note ID")
+        }
         //findById is a mongoose fcn
         const note = await NoteModel.findById(noteId).exec()
+
+        //set error message if note id does not exist
+        if(!note){
+            throw createHttpError(404, "Note not found")
+        }
         res.status(200).json(note)
     } catch (error) {
         next(error)
     }
 }
 
-export const createNote: RequestHandler = async (req, res, next) => {
+interface CreateNoteBody {
+    title?: string,
+    text?: string,
+}
+
+export const createNote: RequestHandler<unknown, unknown, CreateNoteBody, unknown> = async (req, res, next) => {
     const title = req.body.title
     const text = req.body.title
     try {
+        if (!title) {
+            throw createHttpError(400, "Note must have a title")
+        }
         //save new note in variable to send it back to client and to UI
         const newNote = await NoteModel.create({
             title: title,

@@ -2,6 +2,7 @@ import "dotenv/config"
 import express, { Request, Response, NextFunction } from "express"
 import notesRoutes from "./routes/notes"
 import morgan from "morgan"
+import createHttpError, { isHttpError } from "http-errors"
 
 //call express which is our server where we create the endpoints
 const app = express()
@@ -14,7 +15,7 @@ app.use("/api/notes", notesRoutes)
 
 //create a middleware to catch requests that dont have a route set up for it
 app.use((req, res, next) => {
-    next(Error("Endpoint not found!"))
+    next(createHttpError(404, "Endpoint not found!")) //404 is resource not found
 })
 
 
@@ -24,9 +25,13 @@ app.use((error: unknown, req: Request, res: Response, next: NextFunction) => {
     //log the error
     console.error(error)
     let errorMessage = "An unknown error occured"
-    //check if it is actually of type Error
-    if (error instanceof Error) errorMessage = error.message
-    res.status(500).json({ error: errorMessage })
+    let statusCode = 500
+    //check if it is instance of type HttpError
+    if (isHttpError(error)) {
+        statusCode = error.status
+        errorMessage = error.message
+    }
+    res.status(statusCode).json({ error: errorMessage })
 })
 
 export default app
