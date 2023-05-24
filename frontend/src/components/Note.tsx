@@ -3,7 +3,7 @@ import { Note as NoteModel } from '../models/note'
 import { Card } from 'react-bootstrap'
 import { formatDate } from "../utils/formatDate"
 
-//convention is to name it
+//convention is to name it the same as the component
 interface NoteProps {
     note: NoteModel,
     className?: string,
@@ -35,7 +35,7 @@ const Note = ({ note, className }: NoteProps) => {
                 </Card.Text>
             </Card.Body>
             <Card.Footer className="text-muted">
-                {createdUpdateText }
+                {createdUpdateText}
             </Card.Footer>
         </Card>
     )
