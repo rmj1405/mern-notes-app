@@ -35,9 +35,9 @@ const AddNoteDialogue = ({ onDismiss, onNoteSaved }: AddNoteDialogueProps) => {
                         <Form.Label>Title</Form.Label>
                         <Form.Control
                             type='text'
-                            placeholder='title'
+                            placeholder='Title'
                             isInvalid={!!errors.title}
-                            {...register("text", { required: "Required" })}
+                            {...register("title", { required: "Required" })}
                                 />
                                 <Form.Control.Feedback type='invalid'>
                                     {errors.title?.message}
@@ -49,7 +49,7 @@ const AddNoteDialogue = ({ onDismiss, onNoteSaved }: AddNoteDialogueProps) => {
                         <Form.Control
                             as='textarea'
                             rows={5}
-                            placeholder='text'
+                            placeholder='Text'
                             {...register("text")}
                         />
                     </Form.Group>

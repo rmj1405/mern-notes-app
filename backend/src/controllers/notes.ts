@@ -28,7 +28,7 @@ export const getNote: RequestHandler = async (req, res, next) => {
         const note = await NoteModel.findById(noteId).exec()
 
         //set error message if note id does not exist
-        if(!note){
+        if (!note) {
             throw createHttpError(404, "Note not found")
         }
         res.status(200).json(note)
@@ -70,7 +70,7 @@ interface UpdateNoteBody {
     text?: string,
 }
 
-export const updateNote: RequestHandler<UpdateNoteParams, unknown, UpdateNoteBody, unknown>=async (req, res, next) => {
+export const updateNote: RequestHandler<UpdateNoteParams, unknown, UpdateNoteBody, unknown> = async (req, res, next) => {
     const noteId = req.params.noteId
     const newTitle = req.body.title
     const newText = req.body.text
@@ -86,7 +86,7 @@ export const updateNote: RequestHandler<UpdateNoteParams, unknown, UpdateNoteBod
 
         const note = await NoteModel.findById(noteId).exec()
 
-        if(!note){
+        if (!note) {
             throw createHttpError(404, "Note not found")
         }
 
@@ -101,7 +101,7 @@ export const updateNote: RequestHandler<UpdateNoteParams, unknown, UpdateNoteBod
     }
 }
 
-export const deleteNote: RequestHandler =async (req, res, next) => {
+export const deleteNote: RequestHandler = async (req, res, next) => {
     const noteId = req.params.noteId
     try {
         if (!mongoose.isValidObjectId(noteId)) {
@@ -110,7 +110,7 @@ export const deleteNote: RequestHandler =async (req, res, next) => {
         //look up the note and save it into the variable
         const note = await NoteModel.findById(noteId).exec()
 
-        if(!note){
+        if (!note) {
             throw createHttpError(404, "Note not found")
         }
 

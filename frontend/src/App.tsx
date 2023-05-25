@@ -3,6 +3,7 @@ import { Button, Col, Container, Row } from 'react-bootstrap';
 import { Note as NoteModel } from './models/note';
 import Note from './components/Note';
 import styles from "./styles/NotesPage.module.css"
+import styleUtils from "./styles/utils.module.css"
 import * as NotesApi from "./network/notes_api"
 import AddNoteDialogue from './components/AddNoteDialogue';
 
@@ -29,7 +30,7 @@ function App() {
 
   return (
     <Container>
-      <Button onClick={() => setShowAddNoteDialogue(true)}>
+      <Button className={`'mb-4' ${styleUtils.blockCenter}`} onClick={() => setShowAddNoteDialogue(true)}>
         Add new note
       </Button>
       <Row xs={1} md={2} xl={3} className='g-4'>
@@ -44,7 +45,11 @@ function App() {
         showAddNoteDialogue &&
         <AddNoteDialogue
           onDismiss={() => setShowAddNoteDialogue(false)}
-          onNoteSaved={() => {}}
+          onNoteSaved={(newNote) => {
+            //creates a new array and add the notes alr in notes state
+            //this displayed new note on the UI
+            setNotes([...notes, newNote])
+            setShowAddNoteDialogue(false)}}
         />
       }
     </Container>
