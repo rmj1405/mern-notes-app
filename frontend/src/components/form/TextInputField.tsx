@@ -1,5 +1,5 @@
 import { Form } from "react-bootstrap"
-import { Field, FieldError, RegisterOptions, UseFormRegister } from "react-hook-form"
+import { FieldError, RegisterOptions, UseFormRegister } from "react-hook-form"
 
 interface TextInputFieldProps {
     name: string,
