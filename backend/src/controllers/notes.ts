@@ -3,7 +3,8 @@ import NoteModel from "../models/note"
 import createHttpError from "http-errors"
 import mongoose from "mongoose"
 import { assertIsDefined } from "../util/assertIsDefined"
-
+  
+//it is of type requesthandler so we dont need to add the types of (req,res,next) individually
 export const getNotes: RequestHandler = async (req, res, next) => { //await can only be used inside async
     const authenticatedUserId = req.session.userId
     
@@ -13,7 +14,7 @@ export const getNotes: RequestHandler = async (req, res, next) => { //await can 
         const notes = await NoteModel.find({userId:authenticatedUserId}).exec() //await is syntactic sugar for promises, it waits until promise returns
         res.status(200).json(notes)
     } catch (error) {
-        //express middleware
+        //next passes control to the next express middleware
         next(error)
     }
 
@@ -53,6 +54,8 @@ interface CreateNoteBody {
     text?: string,
 }
 
+//ensure typesafety of req body by using the interface as a type of the RequestHandler 
+//third param is for request body, rest are unknown to keep it to default
 export const createNote: RequestHandler<unknown, unknown, CreateNoteBody, unknown> = async (req, res, next) => {
     const title = req.body.title
     const text = req.body.text
@@ -71,7 +74,7 @@ export const createNote: RequestHandler<unknown, unknown, CreateNoteBody, unknow
             title: title,
             text: text,
         })
-        //sending a response back to client
+        //sending a response back to client(i.e. react website or postman)
         res.status(201).json(newNote)
     } catch (error) {
         next(error)
@@ -148,6 +151,8 @@ export const deleteNote: RequestHandler = async (req, res, next) => {
 
         await note.deleteOne()
 
+        //since no json body is being sent, sendStatus does both the setting and sending of the status
+        //as the response body
         res.sendStatus(204)
     } catch (error) {
         next(error)

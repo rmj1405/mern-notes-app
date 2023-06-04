@@ -6,6 +6,8 @@ const router = express.Router()
 //get request endpoint
 router.get("/", NotesController.getNotes)
 
+// :noteId is a variable, anyth behind the slash will be put into the request object as req.params
+// s.t. it can be read in the getNote endpoint and look up this note by the id
 router.get("/:noteId", NotesController.getNote)
 
 //post request methods sends data to the server

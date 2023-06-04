@@ -12,6 +12,7 @@ import { requiresAuth } from "./middleware/auth"
 //call express which is our server where we create the endpoints
 const app = express()
 
+// print specific http request logs to the console
 app.use(morgan("dev"))
 
 app.use(express.json())
@@ -32,6 +33,8 @@ app.use(session({
     })
 }))
 
+// "/api/notes" sets the route endpoint to this path
+// i.e. "mynotesap/api/notes" is forwarded to notes route
 app.use("/api/users", userRoutes)
 app.use("/api/notes", requiresAuth, notesRoutes)
 
@@ -42,6 +45,8 @@ app.use((req, res, next) => {
 
 
 //express error handler: has to take these exact arguments with these types
+//type declaration of params needed cause it is typescript and since anything
+//can be passed in the use fcn, it is not able to the infer the types
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use((error: unknown, req: Request, res: Response, next: NextFunction) => {
     //log the error

@@ -11,4 +11,5 @@ const noteSchema = new Schema({
 type Note = InferSchemaType<typeof noteSchema>
 
 //create a model of type Note to be exported for use in code
+//model fcn takes in the model name and schema
 export default model<Note>("Note", noteSchema)
