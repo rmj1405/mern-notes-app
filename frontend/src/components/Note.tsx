@@ -11,8 +11,9 @@ interface NoteProps {
     onDeleteNoteClicked: (note: NoteModel) => void,
     className?: string,
 }
-
+//destructring syntax NoteProps passed as fcn params to define types of fcns's params
 const Note = ({ note, onNoteClicked, onDeleteNoteClicked, className }: NoteProps) => {
+    //unpack the note property to use its fields
     const {
         title,
         text,

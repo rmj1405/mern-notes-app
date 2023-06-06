@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react'; 
 import LoginModal from './components/LoginModal';
 import NavBar from './components/NavBar';
 import SignUpModal from './components/SignUpModal';
@@ -29,7 +29,10 @@ function App() {
       }
     }
     fetchLoggedInUser()
-  }, []) //empty arr -> only execute once when we open the page
+  }, []) //empty arr -> only execute once when we open the page (on mount)
+
+  //the arr could also take in values which indicates that the useEffect will run only when these values
+  //are changed
 
   return (
     <BrowserRouter>
